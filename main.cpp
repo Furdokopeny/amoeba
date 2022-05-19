@@ -750,7 +750,6 @@ void event_loop(gamestate Gamestate) {
                         focus = i;
                         Gamestate.Clicked = true;
                         Gamestate.Tick++;
-                        std::cout << Gamestate.Tick;
                 }
             }
         }
@@ -798,13 +797,13 @@ void event_loop(gamestate Gamestate) {
                 if (CheckWinState(Gamestate, STATE_X) == true)
                 {
                     Gamestate.gameEnd = true;
-                    std::cout << "Player won!" << Gamestate.gameEnd;
+                    std::cout << "Player2 won!" << Gamestate.gameEnd;
                     break;
                 }
                if (CheckWinState(Gamestate, STATE_O) == true)
                 {
                     Gamestate.gameEnd = true;
-                    std::cout << "AI won!" << Gamestate.gameEnd;
+                    std::cout << "Player won!" << Gamestate.gameEnd;
                     break;
                 }
             }
