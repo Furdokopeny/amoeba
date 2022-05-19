@@ -11,6 +11,7 @@
 
 using namespace genv;
 
+
 struct gamestate
 {
     int level;
@@ -19,7 +20,7 @@ struct gamestate
     int sizeOfGame;
     uint32_t HEIGHT;
     uint32_t WIDTH;
-    uint64_t Tick;
+    uint64_t Tick = 1;
     bool Clicked;
     uint8_t* scratchMemory;
     std::vector <Widget *> w;
@@ -632,8 +633,16 @@ public:
 
     virtual void handle (genv::event ev, gamestate Gamestate, int i) override
     {
-         state = STATE_X;
-         clickable = false;
+         if (Gamestate.Tick % 2 == 0)
+         {
+             state = STATE_X;
+         }
+         else if (Gamestate.Tick % 2 == 1)
+         {
+             state = STATE_O;
+         }
+         /*state = STATE_X;
+         clickable = false;*/
          //AIUpdate(Gamestate);
     }
     virtual void handle(genv::event ev) override
@@ -730,6 +739,7 @@ void clear_screen(gamestate Gamestate)
 
 
 void event_loop(gamestate Gamestate) {
+    gout << refresh;
     event evt;
     int focus = -1;
     while(gin >> evt )
@@ -739,6 +749,8 @@ void event_loop(gamestate Gamestate) {
                 if (Gamestate.w[i]->is_selected(evt.pos_x, evt.pos_y) && Gamestate.w[i]->clickableGetter()) {
                         focus = i;
                         Gamestate.Clicked = true;
+                        Gamestate.Tick++;
+                        std::cout << Gamestate.Tick;
                 }
             }
         }
@@ -777,12 +789,12 @@ void event_loop(gamestate Gamestate) {
                             cellXPos = 0;
                         }
                 }
-                if (Gamestate.Clicked == true)
+                /*if (Gamestate.Clicked == true)
                 {
                     AIUpdate(Gamestate);
                     Gamestate.Clicked = false;
                     std::cout << " AIUPDATE ";
-                }
+                }*/
                 if (CheckWinState(Gamestate, STATE_X) == true)
                 {
                     Gamestate.gameEnd = true;
